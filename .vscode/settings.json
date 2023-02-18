@@ -1,0 +1,39 @@
+{
+  "cSpell.words": [
+    "notionhq",
+    "reduxjs",
+    "Strapi",
+    "tailwindcss"
+  ],
+  "files.associations": {
+    "*.js": "javascriptreact",
+    ".env.*": "properties"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "public/fontawesome": true
+  },
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#00416a",
+    "activityBar.activeBackground": "#00416a",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#fae4f6",
+    "activityBar.activeBorder": "#ffffff",
+    "activityBarBadge.background": "#fae4f6",
+    "activityBarBadge.foreground": "#00416a",
+    "titleBar.activeBackground": "#00416a",
+    "titleBar.inactiveBackground": "#00416a",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "statusBar.background": "#00416a",
+    "statusBarItem.hoverBackground": "#626262",
+    "statusBar.foreground": "#ffffff",
+  },
+  "workbench.preferredLightColorTheme": "Default Dark+"
+}

@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Ubuntu Mono', sans-serif;
+}
+
+body {
+  @apply bg-light-100 dark:bg-dark-600 text-dark dark:text-light;
+}
+
+/* Layout */
+.page-content-width {
+  @apply w-[calc(100%-40px)] sm:w-[calc(100%-144px)] lg:w-[calc(100%-192px)] max-w-[600px];
+}
+
+/* Coding style */
+.code-str {
+  @apply relative text-yellow-400 dark:text-yellow-600 whitespace-nowrap px-2
+    before:content-['"'] before:absolute before:left-0 before:top-0 before:h-6 before:z-0
+    after:content-['"'] after:absolute after:right-0 after:top-0 after:h-6 after:z-0;
+}
+.code-comment {
+  @apply relative text-gray-400 dark:text-gray-600 pl-5 before:absolute before:content-['//'] before:left-0 before:top-0;
+}
