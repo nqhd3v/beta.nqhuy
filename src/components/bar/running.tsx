@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from '@/utils/hooks'
 import { AnimatePresence, motion as m } from 'framer-motion'
-import { Heart, Sharing } from './bar-item'
+import { Heart, Sharing } from './item'
 
 const RunBar = () => {
   const { route } = useRouter()

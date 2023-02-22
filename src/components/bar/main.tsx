@@ -1,7 +1,7 @@
 import React from 'react'
 import { useIsWidthSM, useRouter } from '@/utils/hooks'
 import { AnimatePresence, motion as m } from 'framer-motion'
-import BarItem, { DarkLight } from './bar-item'
+import BarItem, { DarkLight } from './item'
 
 const MainBar: React.FC = () => {
   const { isCurrent, go, route } = useRouter()

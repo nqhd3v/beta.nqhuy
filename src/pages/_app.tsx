@@ -8,8 +8,8 @@ import { AnimatePresence, motion as m } from 'framer-motion'
 
 import locales from '@/locales'
 import store from '@/stores'
-import MainBar from '@/components/bar/main-bar'
-import DocBar from '@/components/bar/docs-bar'
+import MainBar from '@/components/bar/main'
+import DocBar from '@/components/bar/docs'
 
 import 'public/fontawesome/css/all.min.css'
 import '@/styles/globals.css'
