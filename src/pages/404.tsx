@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Command from '@/components/Command'
 import { useRouter } from 'next/router'
+import Command from '@/components/command';
 
 const Error404 = () => {
   const router = useRouter();

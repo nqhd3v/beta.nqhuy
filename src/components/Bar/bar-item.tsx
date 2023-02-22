@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-interface iItemClickable { icon: string, active?: boolean, onClick: () => void }
-const ItemClickable: React.FC<iItemClickable> = ({ icon, active, onClick }) => {
+interface iItemClickable { icon: string, active?: boolean, className?: string, onClick: () => void }
+const ItemClickable: React.FC<iItemClickable> = ({ icon, active, className = '', onClick }) => {
   return (
     <div
       className={
@@ -10,7 +10,8 @@ const ItemClickable: React.FC<iItemClickable> = ({ icon, active, onClick }) => {
         "font-xl " +
         (active ? "text-blue-400 dark:text-white " : "text-dark dark:text-light-200 cursor-pointer ") +
         "flex items-center justify-center " +
-        "duration-300 mb-2 last:mb-0"
+        "duration-300 " +
+        className
       }
       onClick={() => active ? null : onClick()}
     >

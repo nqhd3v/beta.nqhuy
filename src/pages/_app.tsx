@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { DefaultSeo } from 'next-seo'
 import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
+import { AnimatePresence, motion as m } from 'framer-motion'
 
+import DocBar from '@/components/bar/docs-bar'
+import MainBar from '@/components/bar/main-bar'
 import locales from '@/locales'
+import store from '@/stores'
 
-import MainBar from '@/components/Bar/main-bar'
 import 'public/fontawesome/css/all.min.css'
 import '@/styles/globals.css'
-import store from '@/stores'
-import { AnimatePresence, motion as m } from 'framer-motion'
-import DocBar from '@/components/Bar/docs-bar'
 
 function MyApp ({ Component, pageProps, router }: AppProps) {
-  const url = `https://beta.nqhuy.dev${router.route}`
+  const url = `https://beta.nqhuy.dev${router.route}`;
+  const pageElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (
@@ -49,13 +50,13 @@ function MyApp ({ Component, pageProps, router }: AppProps) {
           <link rel="icon" href="/favicon.png" type="image/png" />
         </Head>
         <DefaultSeo
-          titleTemplate="nqhuy.%s"
+          titleTemplate="%s · nqhuy"
           openGraph={{
             type: 'website',
             locale: 'en',
             url,
             description: 'This page was created by HuyNguyen.',
-            site_name: 'Huy Nguyen Portfolio | a.nqhuy.dev',
+            site_name: 'Huy Nguyen | nqhuy.dev',
             images: []
           }}
           canonical={url}
@@ -63,11 +64,20 @@ function MyApp ({ Component, pageProps, router }: AppProps) {
         <main>
           <MainBar />
           <DocBar />
-          <AnimatePresence mode="wait">
-            <m.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { duration: .5} }} exit={{ y: -50, opacity: 0, transition: { duration: .5} }} key={url}>
-              <Component {...pageProps} canonical={url} />
-            </m.div>
-          </AnimatePresence>
+          <div className="w-full max-h-screen overflow-hidden">
+            <AnimatePresence mode="wait">
+              <m.div
+                ref={pageElementRef}
+                className='w-full hide-scrollbar max-h-screen overflow-auto overflow-x-hidden'
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1, transition: { duration: .5} }}
+                exit={{ y: -50, opacity: 0, transition: { duration: .5} }}
+                key={url}
+              >
+                <Component {...pageProps } rootRef={pageElementRef} canonical={url} />
+              </m.div>
+            </AnimatePresence>
+          </div>
         </main>
       </Provider>
     </IntlProvider>

@@ -5,17 +5,29 @@
 * {
   font-family: 'Ubuntu Mono', sans-serif;
 }
+.special {
+  font-family: 'Lilita One', sans-serif;
+}
 
 body {
-  @apply bg-light-100 dark:bg-dark-600 text-dark dark:text-light;
+  @apply bg-blue-100 dark:bg-dark-600 text-dark dark:text-light;
 }
 
 /* Layout */
 .page-content-width {
-  @apply w-[calc(100%-40px)] sm:w-[calc(100%-144px)] lg:w-[calc(100%-192px)] max-w-[600px];
+  @apply w-[calc(100%-40px)] sm:w-[calc(100%-144px)] lg:w-[calc(100%-192px)] max-w-[700px];
+}
+
+/* Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  @apply w-0 h-0;
 }
 
 /* Coding style */
+.code-wrapper-animate {
+  overflow-x: visible;
+  overflow-y: hidden;
+}
 .code-str {
   @apply relative text-yellow-400 dark:text-yellow-600 whitespace-nowrap px-2
     before:content-['"'] before:absolute before:left-0 before:top-0 before:h-6 before:z-0
@@ -23,4 +35,13 @@ body {
 }
 .code-comment {
   @apply relative text-gray-400 dark:text-gray-600 pl-5 before:absolute before:content-['//'] before:left-0 before:top-0;
+}
+.code-cmd {
+  @apply relative text-light-700 dark:text-light-300 before:absolute before:content-['$'] before:text-light-300 before:dark:text-gray-400 before:-left-3 before:top-0;
+}
+.code-cmd .code-cmd-cmd {
+  @apply font-bold;
+}
+.code-cmd .code-cmd-args {
+  @apply text-light-500 dark:text-light-800 pl-2;
 }
