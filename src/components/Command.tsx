@@ -74,7 +74,7 @@ const Command: React.FC<iCommand> = ({ lines, className, onRunLast }) => {
   )
 }
 
-export default Command
+export default Command;
 
 const ArgContent: React.FC<{content?: tCommandArg['content'], className?: string, loading?: boolean, cursor?: boolean }> = ({ content, className, loading, cursor }) => (
   <>

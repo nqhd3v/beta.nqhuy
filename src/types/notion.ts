@@ -7,3 +7,11 @@ export type tNotionDoc = {
   href: string;
   content: any;
 }
+
+export type tNotionActivity = {
+  id: string;
+  name: string;
+  dist: string;
+  speed: string;
+  type: string;
+}
