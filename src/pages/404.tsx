@@ -10,7 +10,7 @@ const Error404 = () => {
     if (router.isReady) {
       setPath(router.asPath)
     }
-  }, [router.isReady])
+  }, [router.isReady, router.asPath])
 
   return (
     <div className="flex items-center justify-center w-full h-screen">

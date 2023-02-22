@@ -6,10 +6,10 @@ import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { AnimatePresence, motion as m } from 'framer-motion'
 
-import DocBar from '@/components/bar/docs-bar'
-import MainBar from '@/components/bar/main-bar'
 import locales from '@/locales'
 import store from '@/stores'
+import MainBar from '@/components/bar/main-bar'
+import DocBar from '@/components/bar/docs-bar'
 
 import 'public/fontawesome/css/all.min.css'
 import '@/styles/globals.css'
