@@ -2,11 +2,11 @@ import React from 'react'
 import { NextSeo } from 'next-seo'
 import SubPageHeader from '@/components/sub-page-header'
 import { useMessage } from '@/utils/hooks'
-import DocCard from '@/components/card/doc-card';
-import { AnimatePresence, motion as m } from 'framer-motion';
+import DocCard from '@/components/card/doc-card'
+import { AnimatePresence, motion as m } from 'framer-motion'
 
 function Docs () {
-  const { msg } = useMessage();
+  const { msg } = useMessage()
 
   return (
     <>
@@ -16,7 +16,7 @@ function Docs () {
         <AnimatePresence mode="wait">
           <m.div
             initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1, transition: { duration: .3, delay: .6 }}}
+            animate={{ y: 0, opacity: 1, transition: { duration: 0.3, delay: 0.6 } }}
             exit={{ y: 40, opacity: 0 }}
             className="page-content-width m-auto grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-5 pb-10"
           >

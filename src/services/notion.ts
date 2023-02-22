@@ -69,7 +69,7 @@ export const transformActivities = (...docs: (PartialPageObjectResponse | PageOb
   return docs.map(d => {
     if ('properties' in d) {
       return {
-        id: d.id,
+        id: d.id
       }
     }
     return undefined

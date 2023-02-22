@@ -7,14 +7,14 @@ type Data = {
   data?: any;
 }
 
-export default function handler(
+export default function handler (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
   try {
-    console.log('Got strava-webhook callback:', req);
+    console.log('Got strava-webhook callback:', req)
     res.send({ data: req })
   } catch (err) {
-    res.status(400).send({ err });
+    res.status(400).send({ err })
   }
 }

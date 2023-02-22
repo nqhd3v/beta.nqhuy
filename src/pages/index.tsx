@@ -13,7 +13,7 @@ export default function Home () {
               <AnimatePresence mode="wait">
                 <m.div
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0, transition: { delay: .5, duration: .3 }}}
+                  animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.3 } }}
                   exit={{ opacity: 0, y: -20 }}
                   className="text-sm code-cmd "
                 >
@@ -25,7 +25,7 @@ export default function Home () {
                   <m.div
                     className='text-3xl sm:leading-[72px] sm:text-[72px] md:text-[84px] md:leading-[84px] lg:text-[92px] lg:leading-[92px] special'
                     initial={{ y: '100%' }}
-                    animate={{ y: 0, transition: { duration: .5, delay: 1 }}}
+                    animate={{ y: 0, transition: { duration: 0.5, delay: 1 } }}
                     exit={{ y: '100%' }}
                   >
                     I am a
@@ -37,7 +37,7 @@ export default function Home () {
                   <m.div
                     className='text-[48px] leading-[48px] sm:text-[68px] sm:leading-[68px] md:text-[88px] md:leading-[88px] lg:text-[120px] lg:leading-[120px] special'
                     initial={{ y: '100%' }}
-                    animate={{ y: 0, transition: { duration: .5, delay: 1.5 }}}
+                    animate={{ y: 0, transition: { duration: 0.5, delay: 1.5 } }}
                     exit={{ y: '100%' }}
                   >
                     Web Developer

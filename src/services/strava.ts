@@ -1,7 +1,7 @@
 const addActivity = () => {
-  return true;
+  return true
 }
 
 export {
-  addActivity,
-};
+  addActivity
+}

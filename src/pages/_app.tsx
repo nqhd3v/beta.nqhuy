@@ -15,8 +15,8 @@ import 'public/fontawesome/css/all.min.css'
 import '@/styles/globals.css'
 
 function MyApp ({ Component, pageProps, router }: AppProps) {
-  const url = `https://beta.nqhuy.dev${router.route}`;
-  const pageElementRef = useRef<HTMLDivElement>(null);
+  const url = `https://beta.nqhuy.dev${router.route}`
+  const pageElementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (
@@ -70,8 +70,8 @@ function MyApp ({ Component, pageProps, router }: AppProps) {
                 ref={pageElementRef}
                 className='w-full hide-scrollbar max-h-screen overflow-auto overflow-x-hidden'
                 initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { duration: .5} }}
-                exit={{ y: -50, opacity: 0, transition: { duration: .5} }}
+                animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
+                exit={{ y: -50, opacity: 0, transition: { duration: 0.5 } }}
                 key={url}
               >
                 <Component {...pageProps } rootRef={pageElementRef} canonical={url} />

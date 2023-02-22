@@ -1,7 +1,8 @@
-import { TW_BOX_SHADOW } from "@/utils/constants";
-import { AnimatePresence, motion as m } from "framer-motion"
-import { useRouter } from "next/router";
-import ElementWrapper from "../element-wrapper";
+import React from 'react'
+import { TW_BOX_SHADOW } from '@/utils/constants'
+import { AnimatePresence, motion as m } from 'framer-motion'
+import { useRouter } from 'next/router'
+import ElementWrapper from '../element-wrapper'
 
 interface iProjectCard {
   title: string;
@@ -9,17 +10,17 @@ interface iProjectCard {
   href: string;
 }
 const ProjectCard: React.FC<iProjectCard> = ({ title, href, description }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <AnimatePresence mode="wait">
       <m.div
         className={
-          "w-full border border-gray-300 dark:border-gray-800 relative p-5 cursor-pointer backdrop-blur-sm "
+          'w-full border border-gray-300 dark:border-gray-800 relative p-5 cursor-pointer backdrop-blur-sm '
         }
         initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1, transition: { duration: .3 }}}
-        whileHover={{ y: -10, boxShadow: TW_BOX_SHADOW.lg, transition: { duration: .3 }}}
+        animate={{ y: 0, opacity: 1, transition: { duration: 0.3 } }}
+        whileHover={{ y: -10, boxShadow: TW_BOX_SHADOW.lg, transition: { duration: 0.3 } }}
         exit={{ y: 20, opacity: 0 }}
         onClick={() => router.push(href)}
       >
@@ -30,4 +31,4 @@ const ProjectCard: React.FC<iProjectCard> = ({ title, href, description }) => {
   )
 }
 
-export default ProjectCard;
+export default ProjectCard

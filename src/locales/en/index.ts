@@ -1,7 +1,7 @@
-import pages from "./pages";
+import pages from './pages'
 
 const en = {
-  ...pages,
-};
+  ...pages
+}
 
-export default en;
+export default en

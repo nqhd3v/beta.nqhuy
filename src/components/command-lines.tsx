@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import TextLoading from './text-loading';
+import TextLoading from './text-loading'
 
 type tCommandArg = { type: 'string' | 'path' | 'operator' | 'error', content: string };
 export type tCommandLine = {
@@ -18,26 +18,26 @@ const Command: React.FC<iCommand> = ({ lines, className, onRunLast }) => {
     isLast: i === lines.length - 1,
     args: l.args.map((a, j) => ({ ...a, paramIndex: j })),
     cmd: l.cmd,
-    row: i + 1,
-  })), [lines]);
+    row: i + 1
+  })), [lines])
 
   const handleEnterKeyUp = () => {
-    onRunLast?.();
-  };
+    onRunLast?.()
+  }
 
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.code === 'Enter') {
-        handleEnterKeyUp();
+        handleEnterKeyUp()
       }
     }
     if (onRunLast) {
-      document.addEventListener('keyup', onKeyUp);
+      document.addEventListener('keyup', onKeyUp)
     }
 
     return () => {
       if (onRunLast) {
-        document.removeEventListener('keyup', onKeyUp);
+        document.removeEventListener('keyup', onKeyUp)
       }
     }
   }, [])
@@ -65,16 +65,18 @@ const Command: React.FC<iCommand> = ({ lines, className, onRunLast }) => {
         )
       })}
 
-      {onRunLast ? (
+      {onRunLast
+        ? (
         <div className="absolute bottom-3 left-12 italic text-gray-400 dark:text-gray-600">
           # Press [Enter] to run the last command...
         </div>
-      ) : null}
+          )
+        : null}
     </div>
   )
 }
 
-export default Command;
+export default Command
 
 const ArgContent: React.FC<{content?: tCommandArg['content'], className?: string, loading?: boolean, cursor?: boolean }> = ({ content, className, loading, cursor }) => (
   <>

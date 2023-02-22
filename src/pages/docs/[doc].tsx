@@ -1,8 +1,8 @@
-import React from "react";
-import { NextSeo } from "next-seo";
-import DocHeader from "@/components/header/doc-header";
-import { iPageProps } from "@/types/app";
-import ElementWrapper from "@/components/element-wrapper";
+import React from 'react'
+import { NextSeo } from 'next-seo'
+import DocHeader from '@/components/header/doc-header'
+import { iPageProps } from '@/types/app'
+import ElementWrapper from '@/components/element-wrapper'
 
 const PostReading: React.FC<iPageProps> = ({ rootRef }) => {
   return (
@@ -19,10 +19,10 @@ const PostReading: React.FC<iPageProps> = ({ rootRef }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default PostReading;
+export default PostReading
 
 const DocDescription = () => {
   return (
@@ -31,11 +31,11 @@ const DocDescription = () => {
       includeElement
       className="text-gray-400 dark:text-gray-500 text-justify"
       content={
-        "Sample document for application with the too long long long long long long long long long long long long " +
-        "long long long long long long long long long long long long long long long long long long long long long long long long" +
-        "long long long long long long long long long long long long long long long long long long long long long long long long " +
-        "long long long long long long long long long long long long long long long long long long long long long long long long content."
+        'Sample document for application with the too long long long long long long long long long long long long ' +
+        'long long long long long long long long long long long long long long long long long long long long long long long long' +
+        'long long long long long long long long long long long long long long long long long long long long long long long long ' +
+        'long long long long long long long long long long long long long long long long long long long long long long long long content.'
       }
     />
-  );
-};
+  )
+}

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Command from '@/components/command-lines';
+import Command from '@/components/command-lines'
 
 const Error404 = () => {
-  const router = useRouter();
-  const [currentPath, setPath] = useState<string>('');
+  const router = useRouter()
+  const [currentPath, setPath] = useState<string>('')
 
   useEffect(() => {
     if (router.isReady) {
-      setPath(router.asPath);
+      setPath(router.asPath)
     }
   }, [router.isReady])
 
@@ -19,21 +19,21 @@ const Error404 = () => {
           {
             cmd: 'cd',
             args: [
-              { type: 'path', content: currentPath || '@' },
+              { type: 'path', content: currentPath || '@' }
             ]
           },
           {
             cmd: '!',
             args: [
-              { type: 'error', content: 'no such file or directory: ' + (currentPath || '[path]') },
+              { type: 'error', content: 'no such file or directory: ' + (currentPath || '[path]') }
             ]
           },
           {
             cmd: 'cd',
             args: [
-              { type: 'path', content: '/' },
+              { type: 'path', content: '/' }
             ]
-          },
+          }
         ]}
         className="max-w-cmd"
         onRunLast={() => router.push('/')}
