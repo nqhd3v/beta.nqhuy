@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+    'react-hooks/exhaustive-deps': 'off'
   },
   globals: {
     JSX: 'readonly'
