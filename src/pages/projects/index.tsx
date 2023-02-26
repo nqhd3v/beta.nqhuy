@@ -5,7 +5,7 @@ import { AnimatePresence, motion as m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 
 const Projects = () => {
-  // const { msg } = useMessage()
+  // const msg = useMessage()
   return (
     <>
       <NextSeo title="Projects" description="This is projects page for my portfolio beta version" />

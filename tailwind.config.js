@@ -32,12 +32,12 @@ module.exports = {
       },
       keyframes: {
         flicker: {
-          '0%, 60%': {opacity: 1},
-          '100%': {opacity: 0}
+          '0%, 60%': { opacity: 1 },
+          '100%': { opacity: 0 }
         }
       },
       animation: {
-        flicker: 'flicker 1s ease-out infinite',
+        flicker: 'flicker 1s ease-out infinite'
       }
     }
   },

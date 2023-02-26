@@ -7,9 +7,7 @@ import { TW_RESPONSIVE } from './constants'
 
 export const useMessage = () => {
   const intl = useIntl()
-  return {
-    msg: (id: string, values?: Record<string, any>) => intl.formatMessage({ id }, values)
-  }
+  return (id: string, values?: Record<string, any>) => intl.formatMessage({ id }, values)
 }
 
 type tUseRouter = NextRouter & {

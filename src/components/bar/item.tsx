@@ -1,7 +1,52 @@
+// import { useIsWidthSM } from '@/utils/hooks'
 import React, { useEffect, useState } from 'react'
+// import { AnimatePresence, motion as m } from 'framer-motion'
 
-interface iItemClickable { icon: string, active?: boolean, className?: string, onClick: () => void }
-const ItemClickable: React.FC<iItemClickable> = ({ icon, active, className = '', onClick }) => {
+interface iItemClickable { icon: string, text?: string, active?: boolean, className?: string, onClick: () => void }
+const ItemClickable: React.FC<iItemClickable> = ({ icon, text, active, className = '', onClick }) => {
+  // const isSm = useIsWidthSM();
+
+  // if (isSm) {
+  //   return (
+  //     <>
+  //       <AnimatePresence mode="wait">
+  //         <m.div
+  //           className={
+  //             'w-10 h-10 rounded-md shadow-md ' +
+  //             'bg-light dark:bg-dark-300 hover:bg-light-50 dark:hover:bg-dark-400 ' +
+  //             'font-xl ' +
+  //             (active ? 'text-blue-400 dark:text-white ' : 'text-dark dark:text-light-200 cursor-pointer ') +
+  //             'flex items-center justify-center ' +
+  //             'duration-300 ' +
+  //             className
+  //           }
+  //           initial={{ }}
+  //           onClick={() => active ? null : onClick()}
+  //         >
+  //           <i className={'text-lg' + icon} />
+  //         </m.div>
+  //       </AnimatePresence>
+  //       <AnimatePresence mode="wait">
+  //         <m.div
+  //           className={
+  //             'px-2 py-1 rounded-md shadow-md ' +
+  //             'bg-light dark:bg-dark-300 hover:bg-light-50 dark:hover:bg-dark-400 ' +
+  //             'font-xl ' +
+  //             (active ? 'text-blue-400 dark:text-white ' : 'text-dark dark:text-light-200 cursor-pointer ') +
+  //             'flex items-center justify-center ' +
+  //             'duration-300 ' +
+  //             className
+  //           }
+  //           initial={{ }}
+  //           onClick={() => active ? null : onClick()}
+  //         >
+  //           <i className={'text-lg' + icon} />
+  //         </m.div>
+  //       </AnimatePresence>
+  //     </>
+  //   )
+  // }
+
   return (
     <div
       className={

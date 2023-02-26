@@ -8,6 +8,9 @@
 .special {
   font-family: 'Lilita One', sans-serif;
 }
+.special-vn {
+  font-family: 'Lobster', sans-serif;
+}
 
 body {
   @apply bg-blue-100 dark:bg-dark-600 text-dark dark:text-light;
@@ -27,6 +30,17 @@ body {
 .code-wrapper-animate {
   overflow-x: visible;
   overflow-y: hidden;
+}
+.code-block {
+  @apply relative whitespace-nowrap px-6
+    before:absolute before:left-0 before:top-0 before:h-6 before:z-0
+    after:absolute after:right-0 after:top-0 after:h-6 after:z-0;
+}
+.code-block::before {
+  content: '-- [ ';
+}
+.code-block::after {
+  content: ' ] --';
 }
 .code-str {
   @apply relative text-yellow-400 dark:text-yellow-600 whitespace-nowrap px-2

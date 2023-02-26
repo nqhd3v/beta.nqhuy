@@ -6,7 +6,7 @@ import DocCard from '@/components/card/doc-card'
 import { AnimatePresence, motion as m } from 'framer-motion'
 
 function Docs () {
-  const { msg } = useMessage()
+  const msg = useMessage()
 
   return (
     <>

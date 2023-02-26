@@ -47,13 +47,13 @@ const Command: React.FC<iCommand> = ({ lines, className, onRunLast }) => {
       {cmdLines.map(line => {
         if (line.isError) {
           return (
-            <div className="relative flex items-center text-red-400 dark:text-red-600" key={line.row}>
+            <div className="relative flex items-center text-red-400 dark:text-red-600 break-all" key={line.row}>
               Error:{' '}{line.args[0].content}
             </div>
           )
         }
         return (
-          <div className="relative flex items-center min-h-6" key={line.row}>
+          <div className="relative flex min-h-6" key={line.row}>
             <div className="absolute top-0 -left-9 w-7 h-6 font-sm text-gray-400 dark:text-gray-700 flex items-center justify-end">
               <i className="fas fa-arrow-right text-xs" />
             </div>
@@ -87,8 +87,8 @@ const ArgContent: React.FC<{content?: tCommandArg['content'], className?: string
 
 const Arg: React.FC<tCommandArg> = ({ type, content }) => {
   if (content === '@') return <ArgContent loading />
-  if (type === 'string') return <ArgContent content={content} className='code-str' />
-  if (type === 'path') return <ArgContent content={content} className='text-slate-100' />
-  if (type === 'operator') return <ArgContent content={content} className='text-purple-400 dark:text-purple-600' />
+  if (type === 'string') return <ArgContent content={content} className='code-str break-all' />
+  if (type === 'path') return <ArgContent content={content} className='text-slate-100 break-all' />
+  if (type === 'operator') return <ArgContent content={content} className='text-purple-400 dark:text-purple-600 break-all' />
   return null
 }

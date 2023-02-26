@@ -51,6 +51,12 @@ const MainBar: React.FC = () => {
           onClick={() => go('/docs')}
           className="mr-2 last:mr-0 sm:mr-0 sm:mb-2 sm:last:m-0"
         />
+        <BarItem
+          icon="fas fa-person-running"
+          active={isCurrent('/running')}
+          onClick={() => go('/running')}
+          className="mr-2 last:mr-0 sm:mr-0 sm:mb-2 sm:last:m-0"
+        />
         <DarkLight />
       </m.div>
     </AnimatePresence>
