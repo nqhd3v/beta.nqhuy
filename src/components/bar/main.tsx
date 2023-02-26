@@ -11,15 +11,15 @@ const MainBar: React.FC = () => {
     if (isWidthLG) {
       return { opacity: 0, x: 0, y: 76 }
     }
-    return { x: -112, y: 0, opacity: 0 }
+    return { x: -136, y: 0, opacity: 0 }
   }
   const animate = () => {
     if (isWidthLG) {
       return hasOthers
         ? { y: -10, opacity: 1, transition: { duration: 0.5 } }
-        : { y: 100, opacity: 1, transition: { duration: 0.5, delay: 0.5 } }
+        : { y: 124, opacity: 1, transition: { duration: 0.5, delay: 0.5 } }
     }
-    return { x: -116, y: 0, opacity: 1, transition: { duration: 0.5, delay: 0.5 } }
+    return { x: -136, y: 0, opacity: 1, transition: { duration: 0.5, delay: 0.5 } }
   }
 
   return (

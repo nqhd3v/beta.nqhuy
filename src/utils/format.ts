@@ -4,11 +4,11 @@ import dayjs from 'dayjs'
 import { s2pace } from './mapping'
 
 // const formatStravaActivity = async () => {
-//   const dataStr = await readFile('./src/data/activities.json', { encoding: 'utf8' })
+//   const dataStr = await readFile('./public/data/activities.json', { encoding: 'utf8' })
 //   if (!dataStr) return
 //   const data = JSON.parse(dataStr)
 //   const formatted = stravaActivities2Activities(...data)
-//   await writeFile(`./src/data/activities-formatted-${Date.now()}.json`, JSON.stringify(formatted), { encoding: 'utf8' })
+//   await writeFile(`./public/data/activities-formatted-${Date.now()}.json`, JSON.stringify(formatted), { encoding: 'utf8' })
 // }
 const date2DMYYYY = (date: Date) => dayjs(date).format('D/M/YYYY')
 const date2MMMDYYYY = (date: Date) => dayjs(date).format('MMM D, YYYY')
