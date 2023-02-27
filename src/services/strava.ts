@@ -18,7 +18,6 @@ const getActivities = async () => {
   try {
     const dataFolder = path.join(process.cwd(), 'json')
     const data = await readFile(dataFolder + '/activities.json', { encoding: 'utf8' })
-    // const data = await readFile('./data/activities.json', { encoding: 'utf8' })
     return JSON.parse(data)
   } catch (err) {
     console.error('Error when getting activities from file:', err)
