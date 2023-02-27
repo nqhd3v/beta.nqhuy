@@ -5,7 +5,8 @@ const addActivity = () => {
 }
 const getRaceInfo = async () => {
   try {
-    const data = await readFile('./public/data/race.json', { encoding: 'utf8' })
+    console.log(process.cwd())
+    const data = await readFile('./data/race.json', { encoding: 'utf8' })
     return JSON.parse(data)
   } catch (err) {
     console.error('Error when getting race from file:', err)
@@ -14,7 +15,8 @@ const getRaceInfo = async () => {
 }
 const getActivities = async () => {
   try {
-    const data = await readFile('./public/data/activities.json', { encoding: 'utf8' })
+    console.log(process.cwd())
+    const data = await readFile('./data/activities.json', { encoding: 'utf8' })
     return JSON.parse(data)
   } catch (err) {
     console.error('Error when getting activities from file:', err)
