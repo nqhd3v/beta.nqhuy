@@ -63,7 +63,6 @@ const arr2Mapping = <T extends Record<string, any>>(arr: T[], key = 'id') => {
   return res
 }
 const s2Hm = (sec: number) => {
-  console.log(sec)
   const h = Math.floor(sec / 3600)
   const m = Math.floor((sec % 3600) / 60)
   return h === 0 ? `${m}m` : `${h}h${m}`

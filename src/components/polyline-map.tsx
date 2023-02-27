@@ -11,7 +11,7 @@ const PolylineMap: React.FC<iPolylineMap> = ({ path, size = 80 }) => {
   return (
     <div className="p-1 flex items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height}>
-        <polyline points={points} className="fill-none stroke-[3px] stroke-orange-500 dark:stroke-orange-400" />
+        <polyline points={points} className="fill-none stroke-1 md:stroke-2 stroke-orange-500 dark:stroke-orange-400" />
       </svg>
     </div>
   )

@@ -18,7 +18,6 @@ const runPace = (sec: number, meter: number) => {
   const p = s2pace(sec, meter)
   const m = Math.floor(p)
   const s = Math.floor((p - m) * 60)
-  console.log(p, m, s)
   return `${m}:${s}`
 }
 
