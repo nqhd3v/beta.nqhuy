@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { sendSlackBlocks } from '@/utils/slack'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default function handler (
+export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -29,7 +30,11 @@ export default function handler (
     }
     if (req.method === 'POST') {
       console.log('WEBHOOK RECEIVED DATA:', req.query, req.body)
-      res.status(200).send('EVENT_RECEIVED')
+      await sendSlackBlocks(
+        '`beta.nqhuy.dev` - Receive event from strava webhook',
+        { type: 'section', text: { type: 'mrkdwn', text: `\`\`\`${JSON.stringify(req.body || {})}\`\`\`` } }
+      )
+      res.status(200).send({ message: '_tracking.message.sent' })
       return
     }
     res.status(404).send({ err: 'Invalid request' })
