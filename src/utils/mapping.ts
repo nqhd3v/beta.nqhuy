@@ -95,6 +95,11 @@ const arr2Mapping = <T extends Record<string, any>>(arr: T[], key = 'id') => {
   })
   return res
 }
+const json2URLFormData = (json: Record<string, any>) => Object.keys(json).map(fieldKey => {
+  const encodedKey = encodeURIComponent(fieldKey)
+  const encodedValue = encodeURIComponent(json[fieldKey])
+  return `${encodedKey}=${encodedValue}`
+}).join('&')
 const s2Hm = (sec: number) => {
   const h = Math.floor(sec / 3600)
   const m = Math.floor((sec % 3600) / 60)
@@ -108,6 +113,7 @@ export {
   polylinePoints2SVG,
   stravaActivities2Activities,
   arr2Mapping,
+  json2URLFormData,
   s2Hm,
   spm,
   s2pace,

@@ -11,7 +11,11 @@ export const fsAdd = async <T extends any>(
   ...pathSegments: string[]
 ): Promise<tDataTransformed<T> | undefined> => {
   try {
-    const docRef = await addDoc(firebaseColl(path, ...pathSegments), data)
+    const dataWithoutUndef: DocumentData = {}
+    Object.keys(data).forEach(k => {
+      dataWithoutUndef[k] = data[k] !== undefined ? data[k] : null
+    })
+    const docRef = await addDoc(firebaseColl(path, ...pathSegments), dataWithoutUndef)
     return await fsReadOne<T>(path, ...[...pathSegments, docRef.id])
   } catch (err) {
     throw err
@@ -24,7 +28,11 @@ export const fsAddWithId = async <T extends any>(
   ...pathSegments: string[]
 ): Promise<tDataTransformed<T> | undefined> => {
   try {
-    await setDoc(firebaseDoc(path, ...[...pathSegments, id]), data)
+    const dataWithoutUndef: DocumentData = {}
+    Object.keys(data).forEach(k => {
+      dataWithoutUndef[k] = data[k] !== undefined ? data[k] : null
+    })
+    await setDoc(firebaseDoc(path, ...[...pathSegments, id]), dataWithoutUndef)
     return await fsReadOne<T>(path, ...[...pathSegments, id])
   } catch (err) {
     throw err
@@ -173,7 +181,11 @@ export const fsUpdate = async (
   ...pathSegments: string[]
 ): Promise<DocumentData | undefined> => {
   try {
-    await setDoc(firebaseDoc(path, ...pathSegments), data, {
+    const dataWithoutUndef: DocumentData = {}
+    Object.keys(data).forEach(k => {
+      dataWithoutUndef[k] = data[k] !== undefined ? data[k] : null
+    })
+    await setDoc(firebaseDoc(path, ...pathSegments), dataWithoutUndef, {
       merge: true
     })
     return await fsReadOne(path, ...pathSegments)
@@ -189,6 +201,14 @@ export const fsRemove = async (
   try {
     await deleteDoc(firebaseDoc(path, ...pathSegments))
     return true
+  } catch (err) {
+    throw err
+  }
+}
+export const fsRemoveCol = async (path: string, ...pathSegments: string[]): Promise<(boolean | Error)[] | Error> => {
+  try {
+    const data = await getDocs(firebaseColl(path, ...pathSegments))
+    return await Promise.all(data.docs.map(async d => await fsRemoveByRef(d.ref)))
   } catch (err) {
     throw err
   }

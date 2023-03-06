@@ -19,7 +19,7 @@ export default async function handler (
       return
     }
   } catch (err) {
-    console.error('Error when handling request:', req.method, err)
+    console.error('[slack] - Error when handling request:', req.method, err)
   }
   res.status(404).send({ message: 'exception._tracking.unknown' })
 }

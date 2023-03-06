@@ -1,3 +1,5 @@
+import fetchJS from './fetch-js'
+
 const sendSlackMessage = (msg: string) => {
   const body = JSON.stringify({ text: msg })
   return fetch(
@@ -8,17 +10,23 @@ const sendSlackMessage = (msg: string) => {
 // Read more about slack block here:
 // https://api.slack.com/reference/block-kit/blocks
 
-const sendSlackBlocks = (title: string, ...blocks: any[]) => {
+const sendSlackBlocks = async (title: string, ...blocks: any[]) => {
   const body = JSON.stringify({
     blocks: [
-      { type: 'section', text: { type: 'mrkdwn', text: `## ${title}` } },
-      ...blocks
+      { type: 'header', text: { type: 'plain_text', text: title } },
+      ...blocks.map(b => typeof b === 'object' ? b : ({ type: 'section', text: { type: 'mrkdwn', text: b } }))
     ]
   })
-  return fetch(
-    process.env.SLACK_WEBHOOK as string,
-    { method: 'POST', body }
-  )
+  try {
+    const res = await fetchJS(
+      process.env.SLACK_WEBHOOK as string,
+      { method: 'POST', body }
+    )
+    return res
+  } catch (err) {
+    console.error('Error when send slack message with blocks:', err)
+    return false
+  }
 }
 
 export {

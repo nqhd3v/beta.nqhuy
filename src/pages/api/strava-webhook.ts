@@ -1,4 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { addStravaActivity, getStravaAuthorizeInfo } from '@/services/firebase-strava'
+import { tStravaActivityOrigin } from '@/types/strava'
+import fetchJS from '@/utils/fetch-js'
 import { sendSlackBlocks } from '@/utils/slack'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -19,7 +22,6 @@ export default async function handler (
         // Verifies that the mode and token sent are valid
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
           // Responds with the challenge token from the request
-          console.log('WEBHOOK VERIFIED')
           res.json({ 'hub.challenge': challenge })
           return
         }
@@ -29,17 +31,37 @@ export default async function handler (
       return
     }
     if (req.method === 'POST') {
-      console.log('WEBHOOK RECEIVED DATA:', req.query, req.body)
-      await sendSlackBlocks(
-        '`beta.nqhuy.dev` - Receive event from strava webhook',
-        { type: 'section', text: { type: 'mrkdwn', text: `\`\`\`${JSON.stringify(req.body || {})}\`\`\`` } }
-      )
-      res.status(200).send({ message: '_tracking.message.sent' })
+      if (!req.body.object_id) {
+        res.status(200).send(req.body)
+        return
+      }
+      const { accessToken, err } = await getStravaAuthorizeInfo()
+      if (err) {
+        res.status(400).send({ err })
+        return
+      }
+      const activity = await fetchJS<tStravaActivityOrigin>(`https://www.strava.com/api/v3/activities/${req.body.object_id}?include_all_efforts=`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      if (typeof activity !== 'object') {
+        await sendSlackBlocks(
+          'Cannot create a new activity in Fs: INVALID FORMAT',
+          'nqhuy-beta-version - https://beta.nqhuy.dev/running',
+          `\`\`\`${JSON.stringify(activity)}\`\`\``
+        )
+        res.status(400).send({ err: 'exception._tracking.activity.invalid-format', data: activity })
+        return
+      }
+      await addStravaActivity(activity)
+
+      res.status(200).send({ message: '_tracking.message.sent', data: activity })
       return
     }
-    res.status(404).send({ err: 'Invalid request' })
+    res.status(404).send({ err: 'exception.request.invalid-method', resource: 'strava-webhook' })
   } catch (err) {
-    console.error('Error when handling request:', req.method, err)
-    res.status(404).send({ err: 'Invalid request!' })
+    console.error('[slack-webhook] - Error when handling request:', req.method, err)
+    res.status(404).send({ err: 'exception.request.unknown', resource: 'strava-webhook' })
   }
 }

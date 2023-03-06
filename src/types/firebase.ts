@@ -24,3 +24,10 @@ export type tFirestoreQueryItemsTransformedData<Type> = {
   errorMessageId?: string;
   isError?: boolean;
 }
+
+// ============================= FIREBASE - FIRESTORE
+export interface iFirestoreConfigurationStrava {
+  access_token: string;
+  refresh_token: string;
+  expires_at: number;
+}

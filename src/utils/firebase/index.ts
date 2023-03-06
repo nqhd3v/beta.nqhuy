@@ -4,17 +4,17 @@ import { getAuth } from 'firebase/auth'
 import { collection, CollectionReference, doc, DocumentData, DocumentReference, getFirestore } from 'firebase/firestore'
 
 const config: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-  projectId: process.env.NEXT_PUBLIC_GOOGLE_PRJ_ID,
-  appId: process.env.NEXT_PUBLIC_GOOGLE_APP_ID,
-  authDomain: process.env.NEXT_PUBLIC_GOOGLE_AUTH_DOMAIN,
-  storageBucket: process.env.NEXT_PUBLIC_GOOGLE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_GOOGLE_MSG_SENDER_ID
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PRJ_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STR_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MSG_SENDER_ID
 }
 
 const firebaseApp = firebase.getApps().length
-  ? firebase.getApp('nqhuy-apps')
-  : initializeApp(config, 'nqhuy-apps')
+  ? firebase.getApp('nqh-d3v')
+  : initializeApp(config, 'nqh-d3v')
 
 // Firebase - Authenticate
 export const firebaseAuth = getAuth(firebaseApp)
