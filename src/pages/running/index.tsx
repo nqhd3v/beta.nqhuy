@@ -1,7 +1,7 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
 import StravaActivities from '@/components/strava-activities'
-import { getActivities, getRaceInfo } from '@/services/file-strava'
+import { getRaceInfo } from '@/services/file-strava'
 import { tRaceInfo, tStravaActivity } from '@/types/strava'
 import RunningCountdown from '@/components/running-countdown'
 import RunningStory from '@/components/running-story'
