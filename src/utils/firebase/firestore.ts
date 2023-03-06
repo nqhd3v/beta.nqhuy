@@ -40,7 +40,7 @@ export const fsAddWithId = async <T extends any>(
 }
 
 export const transformData = <T extends any>(querySnapshot: QuerySnapshot<DocumentData>): Record<DocumentId, tDataTransformed<T>> => {
-  const data: DocumentData = {}
+  const data: Record<DocumentId, tDataTransformed<T>> = {}
   querySnapshot.forEach(snap => {
     const dataItem = snap.data() as T
     if (typeof dataItem === 'object') {
@@ -80,13 +80,13 @@ export const transformUser = (user: User): any => ({
 })
 
 // Firestore - Read documents
-export const fsRead = async (
+export const fsRead = async <T extends any>(
   path: string,
   ...pathSegments: string[]
-): Promise<DocumentData> => {
+): Promise<Record<DocumentId, tDataTransformed<T>>> => {
   try {
     const querySnapshot = await getDocs(firebaseColl(path, ...pathSegments))
-    return transformData(querySnapshot)
+    return transformData<T>(querySnapshot)
   } catch (err: any) {
     console.error('Error when read data from Firebase:', err.toString())
     return {}

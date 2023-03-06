@@ -1,5 +1,5 @@
-import { fsAdd, fsReadOne, fsRemoveCol, fsUpdate } from '@/utils/firebase/firestore'
-import type { tStravaActivityOrigin } from '@/types/strava'
+import { fsAdd, fsRead, fsReadOne, fsRemoveCol, fsUpdate } from '@/utils/firebase/firestore'
+import { tStravaActivity, tStravaActivityOrigin } from '@/types/strava'
 import { json2URLFormData, stravaActivities2Activities } from '@/utils/mapping'
 import fetchJS from '@/utils/fetch-js'
 import { iFirestoreConfigurationStrava } from '@/types/firebase'
@@ -36,20 +36,37 @@ const addStravaActivity = async (data: tStravaActivityOrigin) => {
   }
 }
 
+const getStravaActivities = async (): Promise<tStravaActivity[] | { err: any }> => {
+  try {
+    const activities = await fsRead<tStravaActivity>('strava-activities')
+    return Object.values(activities)
+      .map(a => a?.data)
+      .filter(a => a)
+      .sort((a, b) => a.start_date > b.start_date ? -1 : 1) as tStravaActivity[]
+  } catch (err) {
+    console.error('Error when get strava-activities from Firestore:', err)
+    return { err }
+  }
+}
+
 const syncStravaActivities = async () => {
   try {
     await fsRemoveCol('strava-activities')
     const { accessToken, err } = await getStravaAuthorizeInfo()
     if (err) return { err }
-    const activities = await fetchJS(
-      'https://www.strava.com/api/v3/athlete/activities?before=&after=&page=1&per_page=2',
+    const activities = await fetchJS<tStravaActivityOrigin[]>(
+      'https://www.strava.com/api/v3/athlete/activities?page=1&per_page=200',
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       }
     )
-    console.log('activities: https://www.strava.com/api/v3/athlete/activities?before=&after=&page=0&per_page=2', activities)
+    if (typeof activities !== 'object') {
+      return { err: 'exception._tracking.activities.invalid-format' }
+    }
+    const activitiesTransformed = stravaActivities2Activities(...activities)
+    return await Promise.all(activitiesTransformed.map(async a => await fsAdd(a, 'strava-activities')))
   } catch (err) {
     console.error('Error when sync strava activities and "firestore/strava-activities":', err)
     return { err }
@@ -59,7 +76,7 @@ const syncStravaActivities = async () => {
 const getStravaAuthorizeInfo = async () => {
   try {
     const stravaAuthorize = await fsReadOne<iFirestoreConfigurationStrava>('configuration', 'strava')
-    if (!stravaAuthorize) {
+    if (!stravaAuthorize || !stravaAuthorize.data.access_token || !stravaAuthorize.data.refresh_token) {
       await sendSlackBlocks(
         'No authorized info available in Firebase',
         'App https://beta.nqhuy.dev (nqhuy-beta-ver)',
@@ -129,5 +146,6 @@ export {
   saveStravaAuthorizeInfo,
   addStravaActivity,
   getStravaAuthorizeInfo,
-  syncStravaActivities
+  syncStravaActivities,
+  getStravaActivities
 }

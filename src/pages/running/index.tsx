@@ -5,6 +5,7 @@ import { getActivities, getRaceInfo } from '@/services/file-strava'
 import { tRaceInfo, tStravaActivity } from '@/types/strava'
 import RunningCountdown from '@/components/running-countdown'
 import RunningStory from '@/components/running-story'
+import { getStravaActivities } from '@/services/firebase-strava'
 
 const RunningPage: React.FC<{ race: tRaceInfo, data: tStravaActivity[] }> = ({ race, data }) => {
   return (
@@ -23,7 +24,7 @@ const RunningPage: React.FC<{ race: tRaceInfo, data: tStravaActivity[] }> = ({ r
 export default RunningPage
 
 export async function getServerSideProps () {
-  const data = await getActivities()
+  const data = await getStravaActivities()
   const race = await getRaceInfo()
   return {
     props: {
