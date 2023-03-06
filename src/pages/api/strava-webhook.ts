@@ -31,6 +31,10 @@ export default async function handler (
       return
     }
     if (req.method === 'POST') {
+      await sendSlackBlocks(
+        'Receive event from Strava',
+        `\`\`\`${JSON.stringify(req.body)}\`\`\``
+      )
       if (!req.body.object_id) {
         res.status(200).send(req.body)
         return
