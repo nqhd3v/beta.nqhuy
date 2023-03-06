@@ -82,7 +82,7 @@ const stravaActivities2Activities = (...stravaActs: tStravaActivityOrigin[]): tS
     elev_high: a.elev_high,
     elev_low: a.elev_low,
     start_date: a.start_date,
-    map: a.map.summary_polyline,
+    map: a.map?.summary_polyline,
     average_heartrate: a.average_heartrate,
     max_heartrate: a.max_heartrate
   }))
