@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import queryString from 'query-string'
 import { useEffect, useReducer } from 'react'
+import Error404 from '../404'
 
 interface iStravaAuthorizedState {
   athlete?: {
@@ -69,6 +70,10 @@ const StravaAuthorized = () => {
       err: undefined,
       ...data
     })
+    if (data.athlete.id !== process.env.NEXT_PUBLIC_STRAVA_USR_ID) {
+      console.error('You authorized but this application was built for nqh-d3v only!', data.athlete)
+      return
+    }
     await handleSave2Fs({
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
@@ -86,17 +91,27 @@ const StravaAuthorized = () => {
   }
 
   useEffect(() => {
-    // if (initStates.athlete) return
+    // Only run this in dev mode
+    if (process.env.NODE_ENV !== 'development') return
     if (router.isReady) {
       const code = router.query.code as string
-      if (!code) {
+      const error = router.query.error as string
+      if (!code && !error) {
         // If code has value -> It is response from strava after authorized
         handleAuthorize()
+        return
+      }
+      if (error) {
+        setState({ err: error })
         return
       }
       handleGetAccessCode(code)
     }
   }, [router.isReady])
+
+  if (process.env.NODE_ENV !== 'development') {
+    return <Error404 />
+  }
 
   if (!data.athlete) {
     return (
@@ -125,7 +140,9 @@ const StravaAuthorized = () => {
               "before:content-[''] before:w-14 before:h-px before:bg-gray-400 dark:before:bg-gray-600 before:absolute before:-top-3 before:left-1/2 before:-translate-x-1/2 "
             }
           >
-            {data.athlete.bio}<br /><b className='underline'>@{data.athlete.username}</b>
+            {data.athlete.bio || 'no description :)'}
+            <br />
+            {data.athlete.username ? <b className='underline'>@{data.athlete.username}</b> : null}
           </div>
         </div>
       </div>
