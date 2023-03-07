@@ -2,6 +2,7 @@
 import { addStravaActivity, getStravaAuthorizeInfo } from '@/services/firebase-strava'
 import { tStravaActivityOrigin } from '@/types/strava'
 import fetchJS from '@/utils/fetch-js'
+import { json2SlackCode } from '@/utils/mapping'
 import { sendSlackBlocks } from '@/utils/slack'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -33,10 +34,10 @@ export default async function handler (
     if (req.method === 'POST') {
       await sendSlackBlocks(
         'Receive event from Strava',
-        `\`\`\`${JSON.stringify(req.body)}\`\`\``
+        json2SlackCode(req.body)
       )
       if (!req.body.object_id) {
-        res.status(200).send(req.body)
+        res.status(400).send(req.body)
         return
       }
       const { accessToken, err } = await getStravaAuthorizeInfo()
@@ -53,14 +54,19 @@ export default async function handler (
         await sendSlackBlocks(
           'Cannot create a new activity in Fs: INVALID FORMAT',
           'nqhuy-beta-version - https://beta.nqhuy.dev/running',
-          `\`\`\`${JSON.stringify(activity)}\`\`\``
+          json2SlackCode(activity)
         )
         res.status(400).send({ err: 'exception._tracking.activity.invalid-format', data: activity })
         return
       }
+      const s = await sendSlackBlocks(
+        `Creating a new activity - ${req.body.object_id}`,
+        'nqhuy-beta-version - https://beta.nqhuy.dev/running',
+        json2SlackCode(activity)
+      )
       await addStravaActivity(activity)
 
-      res.status(200).send({ message: '_tracking.message.sent', data: activity })
+      res.status(200).send({ message: '_tracking.message.sent', data: { activity, slack: s } })
       return
     }
     res.status(404).send({ err: 'exception.request.invalid-method', resource: 'strava-webhook' })

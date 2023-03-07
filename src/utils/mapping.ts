@@ -108,6 +108,7 @@ const s2Hm = (sec: number) => {
 const spm = (sec: number, meter: number) => sec / meter
 const spm2pace = (spm: number) => spm * 1000 / 60
 const s2pace = (sec: number, meter: number) => (sec / 60) / (meter / 1000)
+const json2SlackCode = (data: any): string => `\`\`\`${JSON.stringify(data).length > 3000 ? `${JSON.stringify(data).slice(0, 2990)}...` : JSON.stringify(data)}\`\`\``
 
 export {
   polylinePoints2SVG,
@@ -117,5 +118,6 @@ export {
   s2Hm,
   spm,
   s2pace,
-  spm2pace
+  spm2pace,
+  json2SlackCode
 }

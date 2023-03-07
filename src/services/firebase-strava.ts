@@ -1,6 +1,6 @@
 import { fsAdd, fsRead, fsReadOne, fsRemoveCol, fsUpdate } from '@/utils/firebase/firestore'
 import { tStravaActivity, tStravaActivityOrigin } from '@/types/strava'
-import { json2URLFormData, stravaActivities2Activities } from '@/utils/mapping'
+import { json2SlackCode, json2URLFormData, stravaActivities2Activities } from '@/utils/mapping'
 import fetchJS from '@/utils/fetch-js'
 import { iFirestoreConfigurationStrava } from '@/types/firebase'
 import { sendSlackBlocks } from '@/utils/slack'
@@ -119,11 +119,17 @@ const getStravaAuthorizeInfo = async () => {
         await sendSlackBlocks(
           'Refresh authorized token got unexpected response',
           'App **nqhuy-beta-version** - https://beta.nqhuy.dev:',
-          { type: 'section', text: { type: 'mrkdwn', text: `\`\`\`${JSON.stringify(refreshTokenRes)}\`\`\`` } }
+          json2SlackCode(refreshTokenRes)
         )
         return { err: 'exception._tracking.authorize.invalid-response', data: refreshTokenRes }
       }
       const { access_token: access, refresh_token: refresh, expires_at: exp } = refreshTokenRes
+      if (!access || !refresh) {
+        return {
+          err: 'exception._tracking.token.empty',
+          data: refreshTokenRes
+        }
+      }
       await saveStravaAuthorizeInfo({
         accessToken: access,
         refreshToken: refresh,
