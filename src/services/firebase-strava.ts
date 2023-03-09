@@ -1,9 +1,10 @@
-import { fsAdd, fsRead, fsReadOne, fsRemoveCol, fsUpdate } from '@/utils/firebase/firestore'
+import { fsAdd, fsAddWithId, fsRead, fsReadOne, fsReadWithCond, fsRemoveCol, fsUpdate } from '@/utils/firebase/firestore'
 import { tStravaActivity, tStravaActivityOrigin } from '@/types/strava'
 import { json2SlackCode, json2URLFormData, stravaActivities2Activities } from '@/utils/mapping'
 import fetchJS from '@/utils/fetch-js'
 import { iFirestoreConfigurationStrava } from '@/types/firebase'
 import { sendSlackBlocks } from '@/utils/slack'
+import { where } from 'firebase/firestore'
 
 const saveStravaAuthorizeInfo = async ({
   accessToken,
@@ -36,6 +37,18 @@ const addStravaActivity = async (data: tStravaActivityOrigin) => {
   }
 }
 
+const updateStravaActivity = async (id: number, data: tStravaActivityOrigin) => {
+  try {
+    const activities = stravaActivities2Activities(data)
+    return await fsUpdate(activities[0], 'strava-activities', `${id}`)
+  } catch (err) {
+    console.error('Error when update an exist activity to Firestore:', err)
+    return {
+      err
+    }
+  }
+}
+
 const getStravaActivities = async (): Promise<tStravaActivity[] | { err: any }> => {
   try {
     const activities = await fsRead<tStravaActivity>('strava-activities')
@@ -43,6 +56,21 @@ const getStravaActivities = async (): Promise<tStravaActivity[] | { err: any }> 
       .map(a => a?.data)
       .filter(a => a)
       .sort((a, b) => a.start_date > b.start_date ? -1 : 1) as tStravaActivity[]
+  } catch (err) {
+    console.error('Error when get strava-activities from Firestore:', err)
+    return { err }
+  }
+}
+
+const getStravaActivityById = async (id: string): Promise<tStravaActivity | undefined | { err: any }> => {
+  try {
+    const activities = await fsReadWithCond<tStravaActivity>(
+      [where('id', '==', id)],
+      'strava-activities'
+    )
+    return Object.keys(activities).length > 0
+      ? Object.values(activities)[0].data
+      : undefined
   } catch (err) {
     console.error('Error when get strava-activities from Firestore:', err)
     return { err }
@@ -66,10 +94,10 @@ const syncStravaActivities = async () => {
       return { err: 'exception._tracking.activities.invalid-format' }
     }
     const activitiesTransformed = stravaActivities2Activities(...activities)
-    return await Promise.all(activitiesTransformed.map(async a => await fsAdd(a, 'strava-activities')))
+    return await Promise.all(activitiesTransformed.map(async a => a.id ? await fsAddWithId(a, `${a.id}`, 'strava-activities') : await fsAdd(a, 'strava-activities')))
   } catch (err) {
     console.error('Error when sync strava activities and "firestore/strava-activities":', err)
-    return { err }
+    throw err
   }
 }
 
@@ -153,5 +181,7 @@ export {
   addStravaActivity,
   getStravaAuthorizeInfo,
   syncStravaActivities,
-  getStravaActivities
+  getStravaActivities,
+  getStravaActivityById,
+  updateStravaActivity
 }

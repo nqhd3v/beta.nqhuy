@@ -10,7 +10,19 @@ export default async function handler (
   try {
     if (req.method === 'POST') {
       const activities = await syncStravaActivities()
-      res.status(200).send({ message: '_tracking.sync.done', data: activities })
+      if (!Array.isArray(activities)) {
+        res.status(400).send({
+          message: 'exception._tracking.invalid-response',
+          data: activities
+        })
+        return
+      }
+      res.status(200).send({
+        message: '_tracking.sync.done',
+        data: {
+          length: activities.length
+        }
+      })
       return
     }
     res.status(404).send({ err: 'exception.request.invalid-method', resource: 'strava-sync' })

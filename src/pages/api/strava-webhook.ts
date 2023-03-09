@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { addStravaActivity, getStravaAuthorizeInfo } from '@/services/firebase-strava'
+import { addStravaActivity, getStravaAuthorizeInfo, updateStravaActivity } from '@/services/firebase-strava'
 import { tStravaActivityOrigin } from '@/types/strava'
 import fetchJS from '@/utils/fetch-js'
 import { json2SlackCode } from '@/utils/mapping'
@@ -36,8 +36,17 @@ export default async function handler (
         'Receive event from Strava',
         json2SlackCode(req.body)
       )
-      if (!req.body.object_id) {
+      if (!req.body.object_id || !req.body.owner_id || !req.body.aspect_type) {
+        await sendSlackBlocks(
+          'Got invalid action',
+          'nqhuy-beta-version - https://beta.nqhuy.dev/running',
+          json2SlackCode(req.body)
+        )
         res.status(400).send(req.body)
+        return
+      }
+      if (`${req.body.owner_id}` !== process.env.STRAVA_USR_ID as string) {
+        res.status(403).send({ err: 'exception._tracking.user.not-allowed', data: req.body })
         return
       }
       const { accessToken, err } = await getStravaAuthorizeInfo()
@@ -52,21 +61,25 @@ export default async function handler (
       })
       if (typeof activity !== 'object') {
         await sendSlackBlocks(
-          'Cannot create a new activity in Fs: INVALID FORMAT',
+          `"${req.body.object_type}.${req.body.aspect_type}" - Error: INVALID FORMAT`,
           'nqhuy-beta-version - https://beta.nqhuy.dev/running',
           json2SlackCode(activity)
         )
         res.status(400).send({ err: 'exception._tracking.activity.invalid-format', data: activity })
         return
       }
-      const s = await sendSlackBlocks(
-        `Creating a new activity - ${req.body.object_id}`,
+      await sendSlackBlocks(
+        `"${req.body.object_type}.${req.body.aspect_type}" - ID=${req.body.object_id}`,
         'nqhuy-beta-version - https://beta.nqhuy.dev/running',
         json2SlackCode(activity)
       )
-      await addStravaActivity(activity)
+      if (req.body.aspect_type === 'create') {
+        await addStravaActivity(activity)
+      } else if (req.body.aspect_type === 'update') {
+        await updateStravaActivity(req.body.object_id, req.body.updates)
+      }
 
-      res.status(200).send({ message: '_tracking.message.sent', data: { activity, slack: s } })
+      res.status(200).send({ message: '_tracking.message.sent', data: { activity } })
       return
     }
     res.status(404).send({ err: 'exception.request.invalid-method', resource: 'strava-webhook' })
